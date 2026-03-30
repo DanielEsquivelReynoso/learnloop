@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACT Practice Selection</title>
+  <style>
+    :root {
+      --bg-1: #0f172a;
+      --bg-2: #1e293b;
+      --card: rgba(255, 255, 255, 0.1);
+      --card-border: rgba(255, 255, 255, 0.18);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #1d4ed8 0%, transparent 32%),
+        radial-gradient(circle at bottom right, #0ea5e9 0%, transparent 28%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .selection-panel {
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 48px 40px 28px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #bae6fd;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .sections {
+      padding: 36px 40px 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      margin-bottom: 32px;
+    }
+
+    .section-card input {
+      display: none;
+    }
+
+    .card-content {
+      height: 100%;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      position: relative;
+      min-height: 215px;
+    }
+
+    .card-content:hover {
+      transform: translateY(-5px);
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.22);
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .section-card input:checked + .card-content {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.16), rgba(255, 255, 255, 0.1));
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      color: transparent;
+      transition: all 0.2s ease;
+    }
+
+    .section-card input:checked + .card-content .checkmark {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .card-content h2 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .card-content p {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.97rem;
+      margin-bottom: 18px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding-top: 8px;
+    }
+
+    .helper-text {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: 14px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.96;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: white;
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.28);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    @media (max-width: 700px) {
+      .hero,
+      .sections {
+        padding-left: 22px;
+        padding-right: 22px;
+      }
+
+      .footer-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-group {
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="selection-panel">
+      <div class="hero">
+        <div class="hero-badge">ACT Practice Hub</div>
+        <h1>Choose Your ACT Practice Sections</h1>
+        <p>
+          Pick one or more sections to start practicing. Focus on your strengths,
+          target weak areas, or mix sections for a more complete ACT prep session.
+        </p>
+      </div>
+
+      <div class="sections">
+        <form>
+          <div class="grid">
+            <label class="section-card">
+              <input type="checkbox" name="section" value="english" />
+              <div class="card-content">
+                <div class="checkmark">✓</div>
+                <div class="icon">✍️</div>
+                <h2>English</h2>
+                <p>
+                  Practice grammar, punctuation, sentence structure, and rhetorical skills.
+                </p>
+                <span class="tag">75 Questions</span>
+              </div>
+            </label>
+
+            <label class="section-card">
+              <input type="checkbox" name="section" value="math" />
+              <div class="card-content">
+                <div class="checkmark">✓</div>
+                <div class="icon">➗</div>
+                <h2>Math</h2>
+                <p>
+                  Work on algebra, geometry, trigonometry, and problem-solving under time pressure.
+                </p>
+                <span class="tag">60 Questions</span>
+              </div>
+            </label>
+
+            <label class="section-card">
+              <input type="checkbox" name="section" value="reading" />
+              <div class="card-content">
+                <div class="checkmark">✓</div>
+                <div class="icon">📖</div>
+                <h2>Reading</h2>
+                <p>
+                  Build speed and accuracy with passages focused on comprehension and interpretation.
+                </p>
+                <span class="tag">40 Questions</span>
+              </div>
+            </label>
+
+            <label class="section-card">
+              <input type="checkbox" name="section" value="science" />
+              <div class="card-content">
+                <div class="checkmark">✓</div>
+                <div class="icon">🧪</div>
+                <h2>Science</h2>
+                <p>
+                  Practice graphs, experiments, data analysis, and scientific reasoning skills.
+                </p>
+                <span class="tag">40 Questions</span>
+              </div>
+            </label>
+
+            <label class="section-card">
+              <input type="checkbox" name="section" value="writing" />
+              <div class="card-content">
+                <div class="checkmark">✓</div>
+                <div class="icon">📝</div>
+                <h2>Writing</h2>
+                <p>
+                  Optional essay practice for students who want to strengthen planning and argument writing.
+                </p>
+                <span class="tag">Optional Essay</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="footer-actions">
+            <p class="helper-text">
+              Select as many sections as you want, then continue to your practice set.
+            </p>
+
+            <div class="btn-group">
+              <button type="reset" class="btn btn-secondary">Clear Selection</button>
+              <button type="submit" class="btn btn-primary">Start Practice</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

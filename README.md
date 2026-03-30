@@ -1,1 +1,3 @@
 # learnloop
+
+This project is a full-stack ACT prep web application that helps students practice targeted exam skills through quizzes, performance tracking, and clear feedback. Users can choose practice by section and category, answer timed or untimed questions, and review results to identify weak areas. The app is designed to give students more structured ACT preparation while also serving as a portfolio-quality project that demonstrates full-stack development skills, product thinking, and educational software design.
